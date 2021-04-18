@@ -7,10 +7,8 @@ export default function NumberSpinner(props) {
     return (
         <InputSpinner
             height={40}
-            //buttonStyle={styles.buttonStyle}
-            skin="clean"
-            colorMax={"#f04048"}
             value={value}
+            skin="clean"
             {...rest}
         />
     );

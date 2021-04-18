@@ -31,6 +31,7 @@ export default function AddingUserBar(props) {
     return (
         <View style={styles.container}>
             <TextInput
+                style={styles.input}
                 value={inputVal}
                 onEndEditing={onEndEditingHandler}
                 onChangeText={(text) => setInputVal(text)}
@@ -48,4 +49,5 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: Colors.default,
     },
+    input: {height: 50,},
 });
