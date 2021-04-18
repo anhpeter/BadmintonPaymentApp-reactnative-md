@@ -4,8 +4,9 @@ import FontFamily from '../../constants/FontFamily';
 import TitleText from '../TitleText';
 
 export default function SubTitleText(props) {
+    const {style} = props;
     return (
-        <TitleText style={styles.text}>{props.children}</TitleText>
+        <TitleText style={{...styles.text, ...style}}>{props.children}</TitleText>
     );
 }
 

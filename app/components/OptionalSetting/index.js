@@ -40,12 +40,15 @@ export default function OptionalSetting(props) {
 }
 
 const styles = StyleSheet.create({
-    container: {},
+    container: {
+        alignItems: "center",
+        marginVertical:10,
+    },
     productsWrapper: {},
     product: {
-        width: "100%",
+        width: 175,
         flexDirection: "row",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
         alignItems: "center",
     },
 });

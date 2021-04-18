@@ -16,8 +16,8 @@ export default function App() {
     if (isLoading) return <MyAppLoading setLoading={setLoading} />;
     return (
         <Provider store={store}>
-            <ScrollView>
-                <View style={styles.container}>
+            <View style={styles.container}>
+                <ScrollView contentContainerStyle={styles.scrollView}>
                     <SubTitleText>Setting</SubTitleText>
                     <Card>
                         <OptionBoard />
@@ -31,8 +31,8 @@ export default function App() {
                     <Card>
                         <Bill />
                     </Card>
-                </View>
-            </ScrollView>
+                </ScrollView>
+            </View>
         </Provider>
     );
 }
@@ -40,8 +40,10 @@ export default function App() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        paddingTop: StatusBar.currentHeight,
+    },
+    scrollView: {
         padding: 10,
         backgroundColor: "#fff",
-        paddingTop: StatusBar.currentHeight,
     },
 });

@@ -6,10 +6,18 @@ import ListItem from "../ListItem";
 import ShuttleCockIcon from "../ShuttleCockIcon";
 import BodyText from "../BodyText";
 import OtherIcon from "../OtherIcon";
+import TimeIcon from "../TimeIcon";
+import TimeString from "../TimeString";
 
 export default function User(props) {
-    const { user, notShowCock = false, style, ...rest } = props;
-    const { otherPrice, username } = user;
+    const {
+        user,
+        notShowCock = false,
+        style,
+        notShowTime = false,
+        ...rest
+    } = props;
+    const { cock, playingTime, otherPrice, username } = user;
     return (
         <ListItem {...rest}>
             <View style={{ ...styles.container, ...style }}>
@@ -23,7 +31,22 @@ export default function User(props) {
                             <IconWithLabel
                                 labelPos="l"
                                 icon={<ShuttleCockIcon />}
-                                label={user.cock}
+                                label={cock}
+                            />
+                        </View>
+                    ) : null}
+                    {/* TIME */}
+                    {!notShowTime ? (
+                        <View style={styles.option}>
+                            <IconWithLabel
+                                labelPos="l"
+                                icon={<TimeIcon />}
+                                label={
+                                    <TimeString
+                                        time={playingTime}
+                                        color="black"
+                                    />
+                                }
                             />
                         </View>
                     ) : null}
@@ -55,5 +78,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
     },
-    option: {marginHorizontal: 10},
+    option: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginHorizontal: 10,
+    },
 });

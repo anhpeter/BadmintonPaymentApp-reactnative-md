@@ -1,63 +1,114 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { getBillCock, setBillCock } from "../../store/slices/billSettingSlice";
+import MyTime from "../../commons/MyTime";
+import Colors from "../../constants/Colors";
+import {
+    getBillCock,
+    getBillTime,
+    setBillCock,
+    setBillTime,
+} from "../../store/slices/billSettingSlice";
 import {
     updateCockByUsername,
     getMaxCock,
+    getMaxPlayingTime,
     updateOtherPriceByUsername,
+    updatePlayingTimeByUsername,
 } from "../../store/slices/usersSlice";
 import MyModal from "../MyModal";
 import NumberSpinner from "../NumberSpinner";
 import ShuttleCockIcon from "../ShuttleCockIcon";
 import SubTitleText from "../SubTitleText";
+import TimePicker from "../TimePicker";
 
 export default function UserModal(props) {
     const dispatch = useDispatch();
     const { user, modalVisible, setModalVisible } = props;
-    const { cock: userCock, otherPrice: userOtherPrice } = user;
-    const [cock, setCock] = useState(0);
-    const [otherPrice, setOtherPrice] = useState(0);
+    const {
+        username,
+        cock: userCock,
+        otherPrice: userOtherPrice,
+        playingTime: userPlayingTime,
+    } = user;
+    // state
+    const [loading, setLoading] = useState(true);
+    const [playingTime, setPlayingTime] = useState(null);
+    const [cock, setCock] = useState(null);
+    const [otherPrice, setOtherPrice] = useState(null);
+    const [show, setShow] = useState(false);
+    //
     const maxCock = useSelector(getMaxCock);
+    const maxPlayingTime = useSelector(getMaxPlayingTime);
     const totalCock = useSelector(getBillCock);
+    const totalPlayingTime = useSelector(getBillTime);
 
+    // update changes
     useEffect(() => {
-        if (user && maxCock !== totalCock) dispatch(setBillCock(maxCock));
-    }, [totalCock, maxCock, dispatch]);
+        if (user) {
+            if (maxCock !== totalCock) dispatch(setBillCock(maxCock));
+            if (maxPlayingTime !== totalPlayingTime)
+                dispatch(setBillTime(maxPlayingTime));
+        }
+    }, [maxPlayingTime, totalPlayingTime, totalCock, maxCock, dispatch]);
 
+    // set initial state
     useEffect(() => {
         setCock(userCock);
         setOtherPrice(userOtherPrice);
-        return ()=>{
-            setCock(0);
-            setOtherPrice(0);
-        }
-    }, [modalVisible, userCock, userOtherPrice, setCock, setOtherPrice]);
+        setPlayingTime(userPlayingTime);
+        setLoading(false);
+        return () => {
+            setCock(null);
+            setOtherPrice(null);
+            setPlayingTime(null);
+            setLoading(true);
+        };
+    }, [
+        username,
+        modalVisible,
+        userPlayingTime,
+        userCock,
+        userOtherPrice,
+        setCock,
+        setOtherPrice,
+    ]);
+    if (loading) return <View></View>;
 
+    // confirm handler
     const onConfirmHandler = () => {
         if (cock !== userCock)
             dispatch(
                 updateCockByUsername({
-                    username: user.username,
+                    username,
                     cock,
                 })
             );
         if (otherPrice !== userOtherPrice)
             dispatch(
                 updateOtherPriceByUsername({
-                    username: user.username,
+                    username,
                     otherPrice,
                 })
             );
+        if (playingTime !== userPlayingTime)
+            dispatch(updatePlayingTimeByUsername({ username, playingTime }));
+    };
+
+    const onTimeChangeHandler = (event, selectedDate) => {
+        const currentTime =
+            MyTime.convertToLocalTime(new Date(selectedDate).getTime()) || time;
+        setShow(false);
+        setPlayingTime(currentTime);
     };
     return (
         <MyModal
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
-            style={{ minWidth: 300 }}
+            style={styles.modal}
             onConfirm={onConfirmHandler}
         >
-            <SubTitleText>{user.username}</SubTitleText>
+            <SubTitleText style={styles.username}>{username}</SubTitleText>
             <View style={styles.mainContent}>
                 <View style={styles.item}>
                     <ShuttleCockIcon />
@@ -86,6 +137,17 @@ export default function UserModal(props) {
                         />
                     </View>
                 </View>
+                <View style={styles.item}>
+                    <Text>Playing time</Text>
+                    <View>
+                        <TimePicker
+                            onChange={onTimeChangeHandler}
+                            time={playingTime}
+                            show={show}
+                            setShow={setShow}
+                        />
+                    </View>
+                </View>
             </View>
         </MyModal>
     );
@@ -93,6 +155,14 @@ export default function UserModal(props) {
 
 const styles = StyleSheet.create({
     container: {},
+    modal: {
+        maxWidth: "80%",
+        width: 400,
+    },
+    username: {
+        borderBottomColor: Colors.default,
+        borderBottomWidth: 2,
+    },
     mainContent: {
         paddingVertical: 25,
     },

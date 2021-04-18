@@ -7,22 +7,26 @@ import IconWithLabel from "../IconWithLabel";
 import Helper from "../../commons/Helper";
 import ShuttleCockIcon from "../ShuttleCockIcon";
 import OtherIcon from "../OtherIcon";
-import BadmintonRacketIcon from "../BadmintonRacketIcon";
 import FontFamily from "../../constants/FontFamily";
+import PlayIcon from "../PlayIcon";
 
 export default function UserBill(props) {
-    const { user, userCockPayment = 0, userYardPrice = 0 } = props;
+    const {
+        user,
+        userPlayingTimePayment = 0,
+        userCockPayment = 0,
+    } = props;
     const { username, otherPrice = 0 } = user;
 
-    const totalUserPrice = userCockPayment + userYardPrice + otherPrice;
+    const totalUserPrice = userCockPayment + userPlayingTimePayment + otherPrice;
     const billItems = [
         {
             icon: <ShuttleCockIcon />,
             price: userCockPayment,
         },
         {
-            icon: <BadmintonRacketIcon />,
-            price: userYardPrice,
+            icon: <PlayIcon />,
+            price: userPlayingTimePayment,
         },
         {
             icon: <OtherIcon />,

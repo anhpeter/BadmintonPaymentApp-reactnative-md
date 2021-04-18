@@ -15,8 +15,9 @@ export default function UserList(props) {
     const [modalVisible, setModalVisible] = useState(false);
     const users = useSelector(selectAllUser);
     const [currentUser, setCurrentUser] = useState(null);
-    const totalCock = useSelector(getBillCock);
-    const dispatch = useDispatch();
+    const playingTimes = users.map((user) => user.playingTime);
+    const playingTimesStatistic = Helper.count(playingTimes);
+    const notShowTimeIcon = Object.keys(playingTimesStatistic).length === 1;
 
     return (
         <View style={styles.container}>
@@ -30,6 +31,7 @@ export default function UserList(props) {
                         key={item.username}
                         user={item}
                         notShowCock={false}
+                        notShowTime={notShowTimeIcon}
                     />
                 ))
             ) : (

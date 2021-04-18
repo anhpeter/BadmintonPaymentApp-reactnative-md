@@ -24,7 +24,7 @@ const slice = createSlice({
 const selectors = {
     getBillTime: (state) => state[sliceName].time,
     getBillCock: (state) => state[sliceName].cock,
-    getTotalPrice: (state) => {
+    getBillOptionsPrice: (state) => {
         const currentState = state[sliceName];
         const yardPrice = Helper.getYardPrice(currentState.time);
         const cockPrice = currentState.cock * Price.cockPrice;
@@ -33,7 +33,7 @@ const selectors = {
     },
 };
 
-export const { getBillCock, getBillTime, getTotalPrice } = selectors;
+export const { getBillCock, getBillTime, getBillOptionsPrice } = selectors;
 
 export const { setBillCock, setBillTime } = slice.actions;
 export default slice.reducer;

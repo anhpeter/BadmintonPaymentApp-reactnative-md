@@ -25,6 +25,12 @@ const slice = createSlice({
             existingItem.otherPrice = otherPrice;
             itemsAdapter.updateOne(state, existingItem);
         },
+        updatePlayingTimeByUsername: (state, action) => {
+            const { username, playingTime } = action.payload;
+            const existingItem = state.entities[username];
+            existingItem.playingTime = playingTime;
+            itemsAdapter.updateOne(state, existingItem);
+        },
         increaseCock: (state, action) => {
             itemsAdapter.updateMany(
                 state,
@@ -43,10 +49,27 @@ const slice = createSlice({
                 })
             );
         },
+        updatePlayingTime: (state, action) => {
+            itemsAdapter.updateMany(
+                state,
+                Object.values(state.entities).map((item) => {
+                    item.playingTime = action.payload;
+                    return item;
+                })
+            );
+        },
     },
 });
 
 const selectors = {
+    getMaxPlayingTime: (state) => {
+        const currentState = state[sliceName];
+        let max = 0;
+        Object.values(currentState.entities).forEach((item) => {
+            if (item.playingTime > max) max = item.playingTime;
+        });
+        return max;
+    },
     getMaxCock: (state) => {
         const currentState = state[sliceName];
         let maxCock = 0;
@@ -55,8 +78,12 @@ const selectors = {
         });
         return maxCock;
     },
+    getPlayingTimes: (state) =>
+        Object.values(state[sliceName].entities).map(
+            item => item.playingTime
+        ),
 };
-export const { getMaxCock } = selectors;
+export const { getMaxPlayingTime, getMaxCock, getPlayingTimes } = selectors;
 
 export const {
     updateCockByUsername,
@@ -64,6 +91,8 @@ export const {
     decreaseCock,
     increaseCock,
     updateOtherPriceByUsername,
+    updatePlayingTime,
+    updatePlayingTimeByUsername,
 } = slice.actions;
 export const {
     selectAll: selectAllUser,
