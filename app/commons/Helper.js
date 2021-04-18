@@ -40,7 +40,7 @@ const Helper = {
             }`;
             return result;
         }
-        return '0';
+        return "0";
     },
     getYardPrice: function (time) {
         const playingTime = time / (60 * 60 * 1000);

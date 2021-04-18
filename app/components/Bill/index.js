@@ -6,6 +6,8 @@ import {
     getBillCock,
     getBillTime,
     getBillOptionsPrice,
+    getYardPrice,
+    getCockPrice,
 } from "../../store/slices/billSettingSlice";
 import { getPlayingTimes, selectAllUser } from "../../store/slices/usersSlice";
 import BillTotalPrice from "../BillTotalPrice";
@@ -15,9 +17,9 @@ export default function Bill(props) {
     const users = useSelector(selectAllUser);
     const playingTimes = useSelector(getPlayingTimes);
     const totalCock = useSelector(getBillCock);
-    const billPrice = useSelector(getBillOptionsPrice);
+    const yardPrice = useSelector(getYardPrice);
+    const cockPrice = useSelector(getCockPrice);
     const totalOtherPrice = Pricing.getTotalOtherPrice(users);
-    const totalPrice = billPrice + totalOtherPrice;
 
     return (
         <View style={styles.container}>
@@ -26,7 +28,11 @@ export default function Bill(props) {
                 playingTimes={playingTimes}
                 totalCock={totalCock}
             />
-            <BillTotalPrice totalPrice={totalPrice} />
+            <BillTotalPrice
+                yardPrice={yardPrice}
+                cockPrice={cockPrice}
+                totalOtherPrice={totalOtherPrice}
+            />
         </View>
     );
 }

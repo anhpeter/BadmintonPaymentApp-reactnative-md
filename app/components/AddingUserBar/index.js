@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, TextInput } from "react-native";
+import {
+    Text,
+    View,
+    StyleSheet,
+    TextInput,
+    KeyboardAvoidingView,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Colors from "../../constants/Colors";
 import { getBillCock, getBillTime } from "../../store/slices/billSettingSlice";
@@ -30,14 +36,16 @@ export default function AddingUserBar(props) {
 
     return (
         <View style={styles.container}>
-            <TextInput
-                style={styles.input}
-                value={inputVal}
-                onEndEditing={onEndEditingHandler}
-                onChangeText={(text) => setInputVal(text)}
-                selectionColor={Colors.black}
-                placeholder="Enter username"
-            />
+            <KeyboardAvoidingView>
+                <TextInput
+                    style={styles.input}
+                    value={inputVal}
+                    onEndEditing={onEndEditingHandler}
+                    onChangeText={(text) => setInputVal(text)}
+                    selectionColor={Colors.black}
+                    placeholder="Enter username"
+                />
+            </KeyboardAvoidingView>
         </View>
     );
 }
@@ -49,5 +57,5 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: Colors.default,
     },
-    input: {height: 50,},
+    input: { height: 50 },
 });

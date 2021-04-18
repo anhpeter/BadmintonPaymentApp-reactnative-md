@@ -3,31 +3,74 @@ import { Text, View, StyleSheet } from "react-native";
 import Helper from "../../commons/Helper";
 import Colors from "../../constants/Colors";
 import BodyText from "../BodyText";
+import IconWithLabel from "../IconWithLabel";
+import PlayIcon from "../PlayIcon";
+import ShuttleCockIcon from "../ShuttleCockIcon";
 
 export default function BillTotalPrice(props) {
-    const { totalPrice } = props;
+    const { yardPrice, cockPrice, totalOtherPrice } = props;
+    const total = yardPrice + cockPrice + totalOtherPrice;
+
+    const prices = [
+        {
+            icon: <ShuttleCockIcon />,
+            price: cockPrice,
+        },
+        {
+            icon: <PlayIcon />,
+            price: yardPrice,
+        },
+        {
+            price: total,
+            color: "primary",
+            priceSymbol: true,
+        },
+    ];
 
     return (
-        <View style={styles.totalPriceContainer}>
-            <BodyText style={styles.totalPriceLabel}>Total</BodyText>
-            <BodyText style={styles.totalPrice}>
-                {Helper.getPriceFormat(totalPrice, true)}
-            </BodyText>
+        <View style={styles.container}>
+            <View>
+                <BodyText style={styles.totalPriceLabel}>Total</BodyText>
+            </View>
+            <View style={styles.pricesContainer}>
+                {prices.map((item, index) => {
+                    const color = item.color || "black";
+                    const price = Helper.getPriceFormat(
+                        item.price,
+                        item.priceSymbol || false
+                    );
+                    if (item.price > 0)
+                        return (
+                            <IconWithLabel
+                                key={index}
+                                icon={item.icon}
+                                style={styles.price}
+                                label={price}
+                                color={color}
+                            />
+                        );
+                    else return <View key={index} style={styles.price}></View>;
+                })}
+            </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    totalPriceContainer: {
-        flexDirection: "row",
-        justifyContent: "flex-end",
+    container: {
         marginVertical: 20,
     },
     totalPriceLabel: {
         fontWeight: "bold",
         marginRight: 20,
-    },
-    totalPrice: {
         color: Colors.secondary,
+    },
+    pricesContainer: {
+        marginTop: 10,
+        flexDirection: "row",
+    },
+    price: {
+        flex: 1,
+        justifyContent: "flex-end",
     },
 });

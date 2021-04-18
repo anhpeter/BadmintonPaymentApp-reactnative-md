@@ -16,6 +16,7 @@ import TitleText from "../TitleText";
 export default function PlayingTimeSetting(props) {
     const dispatch = useDispatch();
     const time = useSelector(getBillTime);
+    
     const [show, setShow] = useState(false);
     const onTimeChangeHandler = (event, selectedDate) => {
         const currentTime =

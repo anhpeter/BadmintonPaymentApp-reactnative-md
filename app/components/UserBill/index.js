@@ -9,32 +9,45 @@ import ShuttleCockIcon from "../ShuttleCockIcon";
 import OtherIcon from "../OtherIcon";
 import FontFamily from "../../constants/FontFamily";
 import PlayIcon from "../PlayIcon";
+import TimeString from "../TimeString";
 
 export default function UserBill(props) {
     const {
         user,
+        notShowCockQty,
+        showPlayingTime,
         userPlayingTimePayment = 0,
         userCockPayment = 0,
+        ...rest
     } = props;
-    const { username, otherPrice = 0 } = user;
+    const { playingTime, username, otherPrice = 0 } = user;
 
-    const totalUserPrice = userCockPayment + userPlayingTimePayment + otherPrice;
+    const totalUserPrice =
+        userCockPayment + userPlayingTimePayment + otherPrice;
+    const cockQty = !notShowCockQty ? ` (${user.cock})` : "";
     const billItems = [
         {
             icon: <ShuttleCockIcon />,
-            price: userCockPayment,
+            label:
+                userCockPayment > 0
+                    ? `${Helper.getPriceFormat(userCockPayment || 0)}${cockQty}`
+                    : null,
         },
         {
             icon: <PlayIcon />,
-            price: userPlayingTimePayment,
+            label: Helper.getPriceFormat(userPlayingTimePayment || 0),
+            secondaryLabel: showPlayingTime ? (
+                <TimeString time={playingTime} color="black" />
+            ) : null,
         },
         {
             icon: <OtherIcon />,
-            price: user.otherPrice,
+            label:
+                otherPrice > 0 ? Helper.getPriceFormat(otherPrice || 0) : null,
         },
     ];
     return (
-        <ListItem style={styles.container}>
+        <ListItem style={styles.container} {...rest}>
             <View>
                 <BodyText style={styles.username}>{username}</BodyText>
             </View>
@@ -42,14 +55,17 @@ export default function UserBill(props) {
             {/* DETAIL */}
             <View style={styles.detailContainer}>
                 {billItems.map((item, index) => {
-                    return (
-                        <IconWithLabel
-                            style={{ flex: 1, justifyContent: "flex-end" }}
-                            key={index}
-                            icon={item.icon}
-                            label={Helper.getPriceFormat(item.price || 0)}
-                        />
-                    );
+                    if (item.label)
+                        return (
+                            <IconWithLabel
+                                style={styles.detailItem}
+                                key={index}
+                                icon={item.icon}
+                                label={item.label}
+                                secondaryLabel={item.secondaryLabel}
+                            />
+                        );
+                    return <View key={index} style={styles.detailItem}></View>;
                 })}
             </View>
             <View style={styles.userTotalPriceContainer}>
@@ -67,6 +83,7 @@ const styles = StyleSheet.create({
     userTotalPriceContainer: {
         fontFamily: FontFamily.montserratSemiBold,
         alignItems: "flex-end",
+        marginHorizontal:10,
     },
     userTotalPrice: {
         color: Colors.primary,
@@ -75,4 +92,5 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         marginVertical: 10,
     },
+    detailItem: { flex: 1, justifyContent: "flex-end" },
 });

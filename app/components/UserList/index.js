@@ -15,10 +15,10 @@ import User from "../User";
 import UserModal from "../UserModal";
 
 export default function UserList(props) {
-    const [modalVisible, setModalVisible] = useState(false);
     const dispatch = useDispatch();
-    const users = useSelector(selectAllUser);
+    const [modalVisible, setModalVisible] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
+    const users = useSelector(selectAllUser);
     const playingTimes = users.map((user) => user.playingTime);
     const playingTimesStatistic = Helper.count(playingTimes);
     const notShowTimeIcon = Object.keys(playingTimesStatistic).length === 1;

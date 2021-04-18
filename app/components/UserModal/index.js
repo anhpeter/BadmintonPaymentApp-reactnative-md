@@ -24,7 +24,7 @@ import TimePicker from "../TimePicker";
 
 export default function UserModal(props) {
     const dispatch = useDispatch();
-    const { user, modalVisible, setModalVisible } = props;
+    const { users, user, modalVisible, setModalVisible } = props;
     const {
         username,
         cock: userCock,
@@ -46,8 +46,9 @@ export default function UserModal(props) {
     // update changes
     useEffect(() => {
         if (user) {
-            if (maxCock !== totalCock) dispatch(setBillCock(maxCock));
-            if (maxPlayingTime !== totalPlayingTime)
+            if (users.length > 1 && maxCock !== totalCock)
+                dispatch(setBillCock(maxCock));
+            if (maxPlayingTime > 0 && maxPlayingTime !== totalPlayingTime)
                 dispatch(setBillTime(maxPlayingTime));
         }
     }, [maxPlayingTime, totalPlayingTime, totalCock, maxCock, dispatch]);
@@ -97,7 +98,8 @@ export default function UserModal(props) {
 
     const onTimeChangeHandler = (event, selectedDate) => {
         const currentTime =
-            MyTime.convertToLocalTime(new Date(selectedDate).getTime()) || time;
+            MyTime.convertToLocalTime(new Date(selectedDate).getTime()) ||
+            playingTime;
         setShow(false);
         setPlayingTime(currentTime);
     };

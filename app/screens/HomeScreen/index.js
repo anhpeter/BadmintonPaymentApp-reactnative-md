@@ -30,6 +30,7 @@ export default function HomeScreen(props) {
                         <OptionBoard />
                     </Card>
                 </View>
+                {/* 
                 <View style={styles.block}>
                     <SubTitleText>Users</SubTitleText>
                     <Card>
@@ -37,9 +38,11 @@ export default function HomeScreen(props) {
                         <UserList />
                     </Card>
                 </View>
+                 */}
                 <View style={styles.block}>
                     <SubTitleText>Bill</SubTitleText>
                     <Card>
+                        <AddingUserBar />
                         <Bill />
                     </Card>
                 </View>
