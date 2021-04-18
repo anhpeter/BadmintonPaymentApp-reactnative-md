@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, StatusBar } from 'react-native';
 
 export default function Screen(props) {
     return (
@@ -12,5 +12,6 @@ export default function Screen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        paddingTop: StatusBar.currentHeight,
     }
 });

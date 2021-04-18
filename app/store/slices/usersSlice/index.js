@@ -13,6 +13,9 @@ const slice = createSlice({
         addUser: (state, action) => {
             itemsAdapter.addOne(state, action.payload);
         },
+        removeUserByUsername: (state, action) => {
+            itemsAdapter.removeOne(state, action.payload);
+        },
         updateCockByUsername: (state, action) => {
             const { username, cock } = action.payload;
             const existingItem = state.entities[username];
@@ -80,7 +83,7 @@ const selectors = {
     },
     getPlayingTimes: (state) =>
         Object.values(state[sliceName].entities).map(
-            item => item.playingTime
+            (item) => item.playingTime
         ),
 };
 export const { getMaxPlayingTime, getMaxCock, getPlayingTimes } = selectors;
@@ -93,6 +96,7 @@ export const {
     updateOtherPriceByUsername,
     updatePlayingTime,
     updatePlayingTimeByUsername,
+    removeUserByUsername
 } = slice.actions;
 export const {
     selectAll: selectAllUser,

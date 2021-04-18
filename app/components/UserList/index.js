@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Helper from "../../commons/Helper";
 import Colors from "../../constants/Colors";
 import { getBillCock, setBillCock } from "../../store/slices/billSettingSlice";
-import { selectAllUser } from "../../store/slices/usersSlice";
+import {
+    removeUserByUsername,
+    selectAllUser,
+} from "../../store/slices/usersSlice";
 import BodyText from "../BodyText";
 import Card from "../Card";
 import MyModal from "../MyModal";
@@ -13,17 +16,22 @@ import UserModal from "../UserModal";
 
 export default function UserList(props) {
     const [modalVisible, setModalVisible] = useState(false);
+    const dispatch = useDispatch();
     const users = useSelector(selectAllUser);
     const [currentUser, setCurrentUser] = useState(null);
     const playingTimes = users.map((user) => user.playingTime);
     const playingTimesStatistic = Helper.count(playingTimes);
     const notShowTimeIcon = Object.keys(playingTimesStatistic).length === 1;
+    const onLongPressHandler = (item) => {
+        dispatch(removeUserByUsername(item.username));
+    };
 
     return (
         <View style={styles.container}>
             {users.length > 0 ? (
                 users.map((item) => (
                     <User
+                        onLongPress={onLongPressHandler.bind(this, item)}
                         onPress={() => {
                             setModalVisible(true);
                             setCurrentUser(item);
