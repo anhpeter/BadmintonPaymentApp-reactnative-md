@@ -1,14 +1,30 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import DefaultOption from "../../../commons/DefaultOption";
 import SliceName from "../../../constants/SliceName";
 
 const sliceName = SliceName.user;
 const itemsAdapter = createEntityAdapter({
     selectId: (item) => item.username,
 });
+const emptyState = itemsAdapter.getInitialState();
+const filledState = itemsAdapter.addMany(emptyState, [
+    {
+        username: "bi",
+        cock: DefaultOption.cock,
+        playingTime: DefaultOption.playingTime,
+        otherPrice: DefaultOption.otherPrice,
+    },
+    {
+        username: "bo",
+        cock: DefaultOption.cock,
+        playingTime: DefaultOption.playingTime,
+        otherPrice: DefaultOption.otherPrice,
+    },
+]);
 
 const slice = createSlice({
     name: sliceName,
-    initialState: itemsAdapter.getInitialState(),
+    initialState: emptyState,
     reducers: {
         addUser: (state, action) => {
             itemsAdapter.addOne(state, action.payload);
@@ -61,6 +77,11 @@ const slice = createSlice({
                 })
             );
         },
+        resetUserSlice: (state, action) => {
+            for (let key in emptyState) {
+                state[key] = emptyState[key];
+            }
+        },
     },
 });
 
@@ -96,7 +117,8 @@ export const {
     updateOtherPriceByUsername,
     updatePlayingTime,
     updatePlayingTimeByUsername,
-    removeUserByUsername
+    removeUserByUsername,
+    resetUserSlice,
 } = slice.actions;
 export const {
     selectAll: selectAllUser,

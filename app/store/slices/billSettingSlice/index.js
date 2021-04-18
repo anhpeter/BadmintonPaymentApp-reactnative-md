@@ -1,12 +1,13 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import DefaultOption from "../../../commons/DefaultOption";
 import Helper from "../../../commons/Helper";
 import Price from "../../../constants/Price";
 import SliceName from "../../../constants/SliceName";
 
 const sliceName = SliceName.billSetting;
 const initialState = {
-    time: 3600000,
-    cock: 0,
+    time: DefaultOption.playingTime,
+    cock: DefaultOption.cock,
 };
 
 const slice = createSlice({
@@ -18,6 +19,11 @@ const slice = createSlice({
         },
         setBillCock: (state, action) => {
             state.cock = action.payload;
+        },
+        resetBillSettingSlice: (state, action) => {
+            for (let key in initialState) {
+                state[key] = initialState[key];
+            }
         },
     },
 });
@@ -35,5 +41,5 @@ const selectors = {
 
 export const { getBillCock, getBillTime, getBillOptionsPrice } = selectors;
 
-export const { setBillCock, setBillTime } = slice.actions;
+export const { setBillCock, setBillTime, resetBillSettingSlice } = slice.actions;
 export default slice.reducer;
