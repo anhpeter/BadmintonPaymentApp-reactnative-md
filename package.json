@@ -8,12 +8,21 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "3.2.0",
+    "@reduxjs/toolkit": "^1.5.1",
+    "eslint": "^7.24.0",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-native": "^3.10.0",
     "expo": "~41.0.0",
+    "expo-app-loading": "^1.0.3",
+    "expo-font": "~9.1.0",
     "expo-status-bar": "~1.0.4",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
-    "react-native-web": "~0.13.12"
+    "react-native-input-spinner": "^1.7.10",
+    "react-native-web": "~0.13.12",
+    "react-redux": "^7.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
