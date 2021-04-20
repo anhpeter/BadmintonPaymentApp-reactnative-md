@@ -3,7 +3,7 @@ import Helper from "./Helper";
 
 const Pricing = {
     // yard
-    getTimeStampPrice: function (playingTimes) {
+    getTimeStampPrice: function (playingTimes, priceOfYardPerHour) {
         const playingTimeStatistic = Helper.count(playingTimes);
         const descPlayingTimes = Object.keys(playingTimeStatistic).sort(
             (a, b) => b - a
@@ -16,7 +16,8 @@ const Pricing = {
             let middleGapTime = plaTime - nextPlaTime;
             playerQty += playingTimeStatistic[`${item}`];
             timestampPrice[item] =
-                Helper.getYardPrice(middleGapTime) / playerQty;
+                Helper.getYardPrice(middleGapTime, priceOfYardPerHour) /
+                playerQty;
         });
         return timestampPrice;
     },
@@ -36,9 +37,12 @@ const Pricing = {
         return price;
     },
 
-    getPlayingTimePayments: function (playingTimes) {
+    getPlayingTimePayments: function (playingTimes, priceOfYardPerHour) {
         const playingTimePayment = {};
-        const timestampPrice = this.getTimeStampPrice(playingTimes);
+        const timestampPrice = this.getTimeStampPrice(
+            playingTimes,
+            priceOfYardPerHour
+        );
         const timestamps = Object.keys(timestampPrice);
         timestamps.forEach((time) => {
             playingTimePayment[time] = Math.round(
@@ -63,7 +67,7 @@ const Pricing = {
         return playingCockStatistic;
     },
 
-    getUserCockPayments: function (totalCock, users) {
+    getUserCockPayments: function (totalCock, users, priceOfCock) {
         const cockPayment = {};
         const playingCockStatistic = this.getPlayingCockStatistic(
             totalCock,
@@ -79,7 +83,7 @@ const Pricing = {
                     cockPayment[user.username] =
                         cockPayment[user.username] || 0;
                     cockPayment[user.username] += Math.round(
-                        Price.cockPrice / playingCockStatistic[i]
+                        priceOfCock / playingCockStatistic[i]
                     );
                 }
             }

@@ -8,14 +8,14 @@ import {
     getBillTime,
     setBillCock,
     setBillTime,
-} from "../../store/slices/billSettingSlice";
+} from "../../store/slices/billSlice";
 import {
     updateCockByUsername,
     getMaxCock,
     getMaxPlayingTime,
     updateOtherPriceByUsername,
     updatePlayingTimeByUsername,
-} from "../../store/slices/usersSlice";
+} from "../../store/slices/billSlice";
 import MyModal from "../MyModal";
 import NumberSpinner from "../NumberSpinner";
 import OtherPriceSetting from "../OtherPriceSetting";

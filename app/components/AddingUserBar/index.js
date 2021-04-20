@@ -8,8 +8,8 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Colors from "../../constants/Colors";
-import { getBillCock, getBillTime } from "../../store/slices/billSettingSlice";
-import { addUser, selectUserUsernames } from "../../store/slices/usersSlice";
+import { getBillCock, getBillTime } from "../../store/slices/billSlice";
+import { addUser, selectUserUsernames } from "../../store/slices/billSlice";
 
 export default function AddingUserBar(props) {
     const [inputVal, setInputVal] = useState("");

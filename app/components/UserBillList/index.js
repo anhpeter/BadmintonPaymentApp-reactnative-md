@@ -3,12 +3,17 @@ import { Text, View, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Helper from "../../commons/Helper";
 import Pricing from "../../commons/Pricing";
-import { getBillCock, getBillOtherPrice } from "../../store/slices/billSettingSlice";
+import {
+    getBillCock,
+    getBillOtherPrice,
+    getPriceOfCock,
+    getPriceOfYardPerHour,
+} from "../../store/slices/billSlice";
 import {
     getPlayingTimes,
     removeUserByUsername,
     selectAllUser,
-} from "../../store/slices/usersSlice";
+} from "../../store/slices/billSlice";
 import UserBill from "../UserBill";
 import UserModal from "../UserModal";
 
@@ -19,15 +24,18 @@ export default function UserBillList(props) {
     const totalCock = useSelector(getBillCock);
     const playingTimes = useSelector(getPlayingTimes);
     const billOtherPrice = useSelector(getBillOtherPrice);
+    const priceOfYardPerHour = useSelector(getPriceOfYardPerHour);
+    const priceOfCock = useSelector(getPriceOfCock);
     const avgBillOtherPrice = billOtherPrice / users.length;
     // state
     const [modalVisible, setModalVisible] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
     //
 
-    const userCockPayments = Pricing.getUserCockPayments(totalCock, users);
+    const userCockPayments = Pricing.getUserCockPayments(totalCock, users, priceOfCock);
     const userPlayingTimePayments = Pricing.getPlayingTimePayments(
-        playingTimes
+        playingTimes,
+        priceOfYardPerHour
     );
 
     const onLongPressHandler = (item) => {

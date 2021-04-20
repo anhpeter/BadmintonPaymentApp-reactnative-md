@@ -3,11 +3,12 @@ import { Text, View, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Helper from "../../commons/Helper";
 import Colors from "../../constants/Colors";
-import { getBillCock, setBillCock } from "../../store/slices/billSettingSlice";
+import { getBillCock, setBillCock} from "../../store/slices/billSlice";
 import {
     removeUserByUsername,
     selectAllUser,
-} from "../../store/slices/usersSlice";
+
+} from "../../store/slices/billSlice";
 import BodyText from "../BodyText";
 import Card from "../Card";
 import MyModal from "../MyModal";

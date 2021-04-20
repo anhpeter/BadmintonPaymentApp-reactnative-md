@@ -6,9 +6,9 @@ import {
     getBillOptionsPrice,
     getYardPrice,
     getCockPrice,
-    getBillOtherPrice
-} from "../../store/slices/billSettingSlice";
-import { getPlayingTimes, selectAllUser } from "../../store/slices/usersSlice";
+    getBillOtherPrice,
+} from "../../store/slices/billSlice";
+import { getPlayingTimes, selectAllUser } from "../../store/slices/billSlice";
 import BillTotalPrice from "../BillTotalPrice";
 import UserBillList from "../UserBillList";
 

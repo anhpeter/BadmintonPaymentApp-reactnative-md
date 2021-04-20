@@ -45,9 +45,9 @@ const Helper = {
         }
         return "0";
     },
-    getYardPrice: function (time) {
+    getYardPrice: function (time, priceOfYardPerHour) {
         const playingTime = time / (60 * 60 * 1000);
-        const yardPrice = Math.floor(playingTime * Price.yardPricePerHour);
+        const yardPrice = Math.floor(playingTime * priceOfYardPerHour);
         return yardPrice;
     },
 };

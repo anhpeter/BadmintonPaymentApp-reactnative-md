@@ -15,7 +15,7 @@ import {
     getBillCock,
     getBillOtherPrice,
     getBillTime,
-} from "../../store/slices/billSettingSlice";
+} from "../../store/slices/billSlice";
 
 export default function UserBill(props) {
     const {

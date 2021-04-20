@@ -2,14 +2,12 @@ import React from "react";
 import { Text, View, StyleSheet, Button } from "react-native";
 import { useDispatch } from "react-redux";
 import Colors from "../../constants/Colors";
-import { resetBillSettingSlice } from "../../store/slices/billSettingSlice";
-import { resetUserSlice } from "../../store/slices/usersSlice";
+import { resetUserSlice, resetBill } from "../../store/slices/billSlice";
 
 export default function ResetButton(props) {
     const dispatch = useDispatch();
     const onResetHandler = () => {
-        dispatch(resetBillSettingSlice());
-        dispatch(resetUserSlice());
+        dispatch(resetBill());
     };
     return (
         <Button onPress={onResetHandler} title="Reset" color={Colors.primary} />

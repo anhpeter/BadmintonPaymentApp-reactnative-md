@@ -7,8 +7,8 @@ import {
     getBillCock,
     getBillOtherPrice,
     setBillCock,
-} from "../../store/slices/billSettingSlice";
-import { decreaseCock, increaseCock } from "../../store/slices/usersSlice";
+} from "../../store/slices/billSlice";
+import { decreaseCock, increaseCock } from "../../store/slices/billSlice";
 import BodyText from "../BodyText";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Card from "../Card";

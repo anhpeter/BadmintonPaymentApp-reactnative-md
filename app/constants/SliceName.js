@@ -1,5 +1,6 @@
 const SliceName = {
     user: "user",
-    billSetting: 'bill-setting'
+    billSetting: 'bill-setting',
+    bill: 'bill'
 };
 export default SliceName;
