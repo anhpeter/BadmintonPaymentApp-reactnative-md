@@ -26,7 +26,7 @@ export default function UserBillList(props) {
     const users = useSelector(selectAllUser);
     const cockDiff = useSelector(isCockDiff);
     const playingTimeDiff = useSelector(isPlayingTimeDiff);
-    
+
     // state
     const [modalVisible, setModalVisible] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
@@ -41,9 +41,10 @@ export default function UserBillList(props) {
     return (
         <View>
             {users.length > 0
-                ? users.map((item) => (
+                ? users.map((item, index) => (
                       <UserBill
                           key={item.username}
+                          no={index + 1}
                           user={item}
                           showCock={cockDiff}
                           showPlayingTime={playingTimeDiff}

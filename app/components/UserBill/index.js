@@ -14,12 +14,12 @@ import { useSelector } from "react-redux";
 import {
     getAvgBillOtherPriceForEachUser,
     getBillCock,
-    getBillOtherPrice,
     getBillTime,
 } from "../../store/slices/billSlice";
 
 export default function UserBill(props) {
     const {
+        no,
         user,
         showCock,
         showPlayingTime,
@@ -36,6 +36,9 @@ export default function UserBill(props) {
     const totalUserPrice =
         userCockPayment + userPlayingTimePayment + otherPrice;
     const cockQty = showCock ? ` (${cock})` : "";
+    const cockColor = cock === totalCock ? "black" : "info";
+    const playingTimeColor =
+        playingTime === totalPlayingTime ? "black" : "info";
     const billItems = [
         {
             icon: <ShuttleCockIcon />,
@@ -45,7 +48,9 @@ export default function UserBill(props) {
                         <Text>
                             {Helper.getPriceFormat(userCockPayment || 0)}
                         </Text>
-                        <Text style={{ color: Colors.info }}>{cockQty}</Text>
+                        <Text style={{ color: Colors[cockColor] }}>
+                            {cockQty}
+                        </Text>
                     </Text>
                 ) : null,
         },
@@ -53,7 +58,7 @@ export default function UserBill(props) {
             icon: <PlayIcon />,
             label: Helper.getPriceFormat(userPlayingTimePayment || 0),
             secondaryLabel: showPlayingTime ? (
-                <TimeString time={playingTime} color="info" />
+                <TimeString time={playingTime} color={playingTimeColor} />
             ) : null,
         },
         {
