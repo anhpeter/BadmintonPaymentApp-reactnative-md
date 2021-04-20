@@ -1,6 +1,6 @@
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Platform } from "react-native";
 import MyTime from "../../commons/MyTime";
 import TimeString from "../TimeString";
 
@@ -21,6 +21,7 @@ export default function TimePicker(props) {
                 <RNDateTimePicker
                     is24Hour={true}
                     mode="time"
+                    display={Platform.OS === "android" ? "clock" : "spinner"}
                     value={new Date(MyTime.convertToUtcTime(time))}
                     onChange={onChange}
                 />

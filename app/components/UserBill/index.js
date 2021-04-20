@@ -10,35 +10,49 @@ import OtherIcon from "../OtherIcon";
 import FontFamily from "../../constants/FontFamily";
 import PlayIcon from "../PlayIcon";
 import TimeString from "../TimeString";
+import { useSelector } from "react-redux";
+import {
+    getBillCock,
+    getBillOtherPrice,
+    getBillTime,
+} from "../../store/slices/billSettingSlice";
 
 export default function UserBill(props) {
     const {
         user,
-        notShowCockQty,
-        showPlayingTime,
+        avgBillOtherPrice,
         userPlayingTimePayment = 0,
         userCockPayment = 0,
         ...rest
     } = props;
-    const { playingTime, username, otherPrice = 0 } = user;
+    let { cock, playingTime, username, otherPrice = 0 } = user;
+    otherPrice += avgBillOtherPrice || 0;
+    const totalPlayingTime = useSelector(getBillTime);
+    const totalCock = useSelector(getBillCock);
 
     const totalUserPrice =
         userCockPayment + userPlayingTimePayment + otherPrice;
-    const cockQty = !notShowCockQty ? ` (${user.cock})` : "";
+    const cockQty = cock !== totalCock ? ` (${cock})` : "";
     const billItems = [
         {
             icon: <ShuttleCockIcon />,
             label:
-                userCockPayment > 0
-                    ? `${Helper.getPriceFormat(userCockPayment || 0)}${cockQty}`
-                    : null,
+                userCockPayment > 0 ? (
+                    <Text>
+                        <Text>
+                            {Helper.getPriceFormat(userCockPayment || 0)}
+                        </Text>
+                        <Text style={{ color: Colors.info }}>{cockQty}</Text>
+                    </Text>
+                ) : null,
         },
         {
             icon: <PlayIcon />,
             label: Helper.getPriceFormat(userPlayingTimePayment || 0),
-            secondaryLabel: showPlayingTime ? (
-                <TimeString time={playingTime} color="black" />
-            ) : null,
+            secondaryLabel:
+                playingTime !== totalPlayingTime ? (
+                    <TimeString time={playingTime} color="info" />
+                ) : null,
         },
         {
             icon: <OtherIcon />,
@@ -83,7 +97,7 @@ const styles = StyleSheet.create({
     userTotalPriceContainer: {
         fontFamily: FontFamily.montserratSemiBold,
         alignItems: "flex-end",
-        marginHorizontal:10,
+        marginHorizontal: 10,
     },
     userTotalPrice: {
         color: Colors.primary,

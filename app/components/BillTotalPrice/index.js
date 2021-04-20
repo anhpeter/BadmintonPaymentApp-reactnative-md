@@ -22,7 +22,7 @@ export default function BillTotalPrice(props) {
         },
         {
             price: total,
-            color: "primary",
+            color: "secondary",
             priceSymbol: true,
         },
     ];

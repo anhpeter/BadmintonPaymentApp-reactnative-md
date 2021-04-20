@@ -6,6 +6,7 @@ export default function NumberSpinner(props) {
     const { value, ...rest } = props;
     return (
         <InputSpinner
+            style={styles.container}
             height={40}
             value={value}
             skin="clean"
@@ -13,3 +14,10 @@ export default function NumberSpinner(props) {
         />
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        minWidth: 125,
+        maxWidth: 150,
+    },
+});

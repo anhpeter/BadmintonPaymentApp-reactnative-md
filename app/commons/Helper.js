@@ -30,14 +30,17 @@ const Helper = {
     },
     getPriceFormat: function (number, isShowSymbol = false) {
         if (number > 0) {
+            number = Math.round(number);
             const numberString = `${number}`;
             const firstGroupQty = numberString.length % 3 || 3;
             const firstGroup = numberString.slice(0, firstGroupQty);
             const leftString = numberString.slice(firstGroupQty);
             const leftStringGroups = leftString.match(/.{1,3}/g);
-            const result = `${firstGroup},${leftStringGroups.join(",")}${
-                isShowSymbol ? " vnd" : ""
-            }`;
+            const result = leftStringGroups
+                ? `${firstGroup},${leftStringGroups.join(",")}${
+                      isShowSymbol ? " vnd" : ""
+                  }`
+                : firstGroup;
             return result;
         }
         return "0";

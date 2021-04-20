@@ -18,7 +18,9 @@ import {
 } from "../../store/slices/usersSlice";
 import MyModal from "../MyModal";
 import NumberSpinner from "../NumberSpinner";
+import OtherPriceSetting from "../OtherPriceSetting";
 import ShuttleCockIcon from "../ShuttleCockIcon";
+import ShuttleCockSetting from "../ShuttleCockSetting";
 import SubTitleText from "../SubTitleText";
 import TimePicker from "../TimePicker";
 
@@ -46,7 +48,7 @@ export default function UserModal(props) {
     // update changes
     useEffect(() => {
         if (user) {
-            if (users.length > 1 && maxCock !== totalCock)
+            if (users.length > 0 && maxCock !== totalCock)
                 dispatch(setBillCock(maxCock));
             if (maxPlayingTime > 0 && maxPlayingTime !== totalPlayingTime)
                 dispatch(setBillTime(maxPlayingTime));
@@ -112,33 +114,21 @@ export default function UserModal(props) {
         >
             <SubTitleText style={styles.username}>{username}</SubTitleText>
             <View style={styles.mainContent}>
-                <View style={styles.item}>
-                    <ShuttleCockIcon />
-                    <View>
-                        <NumberSpinner
-                            min={0}
-                            step={1}
-                            editable={false}
-                            onChange={(value) => {
-                                setCock(value);
-                            }}
-                            value={cock}
-                        />
-                    </View>
-                </View>
-                <View style={styles.item}>
-                    <Text>Other price</Text>
-                    <View>
-                        <NumberSpinner
-                            min={0}
-                            step={1000}
-                            onChange={(value) => {
-                                setOtherPrice(value);
-                            }}
-                            value={otherPrice}
-                        />
-                    </View>
-                </View>
+                <ShuttleCockSetting
+                    value={cock}
+                    onChange={(value) => {
+                        setCock(value);
+                    }}
+                    style={styles.item}
+                />
+                <OtherPriceSetting
+                    value={otherPrice}
+                    onChange={(value) => {
+                        setOtherPrice(value);
+                    }}
+                    style={styles.item}
+                />
+
                 <View style={styles.item}>
                     <Text>Playing time</Text>
                     <View>

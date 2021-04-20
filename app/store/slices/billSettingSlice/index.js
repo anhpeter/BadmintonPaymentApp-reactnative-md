@@ -8,6 +8,7 @@ const sliceName = SliceName.billSetting;
 const initialState = {
     time: DefaultOption.playingTime,
     cock: DefaultOption.cock,
+    otherPrice: DefaultOption.otherPrice,
 };
 
 const slice = createSlice({
@@ -20,6 +21,9 @@ const slice = createSlice({
         setBillCock: (state, action) => {
             state.cock = action.payload;
         },
+        setBillOtherPrice: (state, action) => {
+            state.otherPrice = action.payload;
+        },
         resetBillSettingSlice: (state, action) => {
             for (let key in initialState) {
                 state[key] = initialState[key];
@@ -30,6 +34,7 @@ const slice = createSlice({
 const selectors = {
     getBillTime: (state) => state[sliceName].time,
     getBillCock: (state) => state[sliceName].cock,
+    getBillOtherPrice: (state) => state[sliceName].otherPrice,
     getYardPrice: (state) => Helper.getYardPrice(state[sliceName].time),
     getCockPrice: (state) => state[sliceName].cock * Price.cockPrice,
     getBillCock: (state) => state[sliceName].cock,
@@ -40,11 +45,13 @@ export const {
     getBillTime,
     getCockPrice,
     getYardPrice,
+    getBillOtherPrice
 } = selectors;
 
 export const {
     setBillCock,
     setBillTime,
     resetBillSettingSlice,
+    setBillOtherPrice
 } = slice.actions;
 export default slice.reducer;
