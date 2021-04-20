@@ -1,15 +1,23 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
 import Helper from "../../commons/Helper";
+import Pricing from "../../commons/Pricing";
 import Colors from "../../constants/Colors";
+import {
+    getCockPrice,
+    getYardPrice,
+    getBillTotalPrice,
+} from "../../store/slices/billSlice";
 import BodyText from "../BodyText";
 import IconWithLabel from "../IconWithLabel";
 import PlayIcon from "../PlayIcon";
 import ShuttleCockIcon from "../ShuttleCockIcon";
 
 export default function BillTotalPrice(props) {
-    const { yardPrice, cockPrice, totalOtherPrice } = props;
-    const total = yardPrice + cockPrice + totalOtherPrice;
+    const yardPrice = useSelector(getYardPrice);
+    const cockPrice = useSelector(getCockPrice);
+    const totalPrice = useSelector(getBillTotalPrice);
 
     const prices = [
         {
@@ -21,7 +29,7 @@ export default function BillTotalPrice(props) {
             price: yardPrice,
         },
         {
-            price: total,
+            price: totalPrice,
             color: "secondary",
             priceSymbol: true,
         },

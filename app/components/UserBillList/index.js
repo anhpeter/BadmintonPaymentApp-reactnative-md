@@ -8,6 +8,10 @@ import {
     getBillOtherPrice,
     getPriceOfCock,
     getPriceOfYardPerHour,
+    getUserCockPayments,
+    getUserPlayingTimePayments,
+    isCockDiff,
+    isPlayingTimeDiff,
 } from "../../store/slices/billSlice";
 import {
     getPlayingTimes,
@@ -19,25 +23,17 @@ import UserModal from "../UserModal";
 
 export default function UserBillList(props) {
     const dispatch = useDispatch();
-
     const users = useSelector(selectAllUser);
-    const totalCock = useSelector(getBillCock);
-    const playingTimes = useSelector(getPlayingTimes);
-    const billOtherPrice = useSelector(getBillOtherPrice);
-    const priceOfYardPerHour = useSelector(getPriceOfYardPerHour);
-    const priceOfCock = useSelector(getPriceOfCock);
-    const avgBillOtherPrice = billOtherPrice / users.length;
+    const cockDiff = useSelector(isCockDiff);
+    const playingTimeDiff = useSelector(isPlayingTimeDiff);
+    
     // state
     const [modalVisible, setModalVisible] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
     //
 
-    const userCockPayments = Pricing.getUserCockPayments(totalCock, users, priceOfCock);
-    const userPlayingTimePayments = Pricing.getPlayingTimePayments(
-        playingTimes,
-        priceOfYardPerHour
-    );
-
+    const userPlayingTimePayments = useSelector(getUserPlayingTimePayments);
+    const userCockPayments = useSelector(getUserCockPayments);
     const onLongPressHandler = (item) => {
         dispatch(removeUserByUsername(item.username));
     };
@@ -47,18 +43,19 @@ export default function UserBillList(props) {
             {users.length > 0
                 ? users.map((item) => (
                       <UserBill
+                          key={item.username}
+                          user={item}
+                          showCock={cockDiff}
+                          showPlayingTime={playingTimeDiff}
+                          userCockPayment={userCockPayments[item.username]}
+                          userPlayingTimePayment={
+                              userPlayingTimePayments[item.playingTime]
+                          }
                           onLongPress={onLongPressHandler.bind(this, item)}
                           onPress={() => {
                               setModalVisible(true);
                               setCurrentUser(item);
                           }}
-                          key={item.username}
-                          user={item}
-                          userCockPayment={userCockPayments[item.username]}
-                          avgBillOtherPrice={avgBillOtherPrice}
-                          userPlayingTimePayment={
-                              userPlayingTimePayments[item.playingTime]
-                          }
                       />
                   ))
                 : null}

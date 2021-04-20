@@ -1,6 +1,7 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import DefaultOption from "../../../commons/DefaultOption";
 import Helper from "../../../commons/Helper";
+import Pricing from "../../../commons/Pricing";
 import Price from "../../../constants/Price";
 import SliceName from "../../../constants/SliceName";
 
@@ -94,39 +95,76 @@ const slice = createSlice({
         },
     },
 });
+const getState = (state) => state[sliceName];
+
 const selectors = {
-    getPriceOfYardPerHour: (state) => state[sliceName].priceOfYardPerHour,
-    getPriceOfCock: (state) => state[sliceName].priceOfCock,
-    getBillTime: (state) => state[sliceName].time,
-    getBillCock: (state) => state[sliceName].cock,
-    getBillOtherPrice: (state) => state[sliceName].otherPrice,
-    getYardPrice: (state) => Helper.getYardPrice(state[sliceName].time),
-    getCockPrice: (state) => state[sliceName].cock * Price.cockPrice,
-    getBillCock: (state) => state[sliceName].cock,
+    getPriceOfYardPerHour: (state) => getState(state).priceOfYardPerHour,
+    getPriceOfCock: (state) => getState(state).priceOfCock,
+    getBillTime: (state) => getState(state).time,
+    getBillCock: (state) => getState(state).cock,
+    getCockPrice: (state) => getState(state).cock * getState(state).priceOfCock,
+    getBillOtherPrice: (state) => getState(state).otherPrice,
+    getYardPrice: (state) =>
+        Helper.getYardPrice(
+            getState(state).time,
+            getState(state).priceOfYardPerHour
+        ),
+    getBillTotalPrice: (state) => {
+        const billOtherPrice = getState(state).otherPrice;
+        const totalOtherPrice =
+            Pricing.getTotalOtherPrice(selectors.getUsers(state)) +
+            billOtherPrice;
+
+        const total =
+            selectors.getYardPrice(state) +
+            selectors.getCockPrice(state) +
+            totalOtherPrice;
+        return total;
+    },
     // user
+    getUsers: (state) => Object.values(getState(state).users.entities),
     getMaxPlayingTime: (state) => {
-        const currentState = state[sliceName].users;
         let max = 0;
-        Object.values(currentState.entities).forEach((item) => {
+        selectors.getUsers(state).forEach((item) => {
             if (item.playingTime > max) max = item.playingTime;
         });
         return max;
     },
     getMaxCock: (state) => {
-        const currentState = state[sliceName].users;
-        let maxCock = 0;
-        Object.values(currentState.entities).forEach((item) => {
-            if (item.cock > maxCock) maxCock = item.cock;
+        let max = 0;
+        selectors.getUsers(state).forEach((item) => {
+            if (item.cock > max) max = item.cock;
         });
-        return maxCock;
+        return max;
     },
     getPlayingTimes: (state) =>
-        Object.values(state[sliceName].users.entities).map(
-            (item) => item.playingTime
+        selectors.getUsers(state).map((item) => item.playingTime),
+    getCocks: (state) => selectors.getUsers(state).map((item) => item.cock),
+
+    getUserPlayingTimePayments: (state) =>
+        Pricing.getPlayingTimePayments(
+            selectors.getPlayingTimes(state),
+            selectors.getPriceOfYardPerHour(state)
         ),
+
+    getUserCockPayments: (state) =>
+        Pricing.getUserCockPayments(
+            selectors.getBillCock(state),
+            selectors.getUsers(state),
+            selectors.getPriceOfCock(state)
+        ),
+    getAvgBillOtherPriceForEachUser: (state) =>
+        getState(state).otherPrice / selectors.getUsers(state).length,
+    isCockDiff: (state) =>
+        Object.keys(Helper.count(selectors.getCocks(state))).length > 1,
+    isPlayingTimeDiff: (state) =>
+        Object.keys(Helper.count(selectors.getPlayingTimes(state))).length > 1,
 };
 
 export const {
+    isCockDiff,
+    isPlayingTimeDiff,
+    getAvgBillOtherPriceForEachUser,
     getBillCock,
     getBillTime,
     getCockPrice,
@@ -137,6 +175,9 @@ export const {
     getPlayingTimes,
     getPriceOfCock,
     getPriceOfYardPerHour,
+    getBillTotalPrice,
+    getUserCockPayments,
+    getUserPlayingTimePayments,
 } = selectors;
 
 export const {

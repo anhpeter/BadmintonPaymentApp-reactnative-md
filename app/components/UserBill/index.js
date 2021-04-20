@@ -12,6 +12,7 @@ import PlayIcon from "../PlayIcon";
 import TimeString from "../TimeString";
 import { useSelector } from "react-redux";
 import {
+    getAvgBillOtherPriceForEachUser,
     getBillCock,
     getBillOtherPrice,
     getBillTime,
@@ -20,19 +21,21 @@ import {
 export default function UserBill(props) {
     const {
         user,
-        avgBillOtherPrice,
+        showCock,
+        showPlayingTime,
         userPlayingTimePayment = 0,
         userCockPayment = 0,
         ...rest
     } = props;
     let { cock, playingTime, username, otherPrice = 0 } = user;
-    otherPrice += avgBillOtherPrice || 0;
     const totalPlayingTime = useSelector(getBillTime);
     const totalCock = useSelector(getBillCock);
+    const avgBillOtherPrice = useSelector(getAvgBillOtherPriceForEachUser);
+    otherPrice += avgBillOtherPrice || 0;
 
     const totalUserPrice =
         userCockPayment + userPlayingTimePayment + otherPrice;
-    const cockQty = cock !== totalCock ? ` (${cock})` : "";
+    const cockQty = showCock ? ` (${cock})` : "";
     const billItems = [
         {
             icon: <ShuttleCockIcon />,
@@ -49,10 +52,9 @@ export default function UserBill(props) {
         {
             icon: <PlayIcon />,
             label: Helper.getPriceFormat(userPlayingTimePayment || 0),
-            secondaryLabel:
-                playingTime !== totalPlayingTime ? (
-                    <TimeString time={playingTime} color="info" />
-                ) : null,
+            secondaryLabel: showPlayingTime ? (
+                <TimeString time={playingTime} color="info" />
+            ) : null,
         },
         {
             icon: <OtherIcon />,
