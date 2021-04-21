@@ -1,9 +1,15 @@
-import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+    createAsyncThunk,
+    createEntityAdapter,
+    createSlice,
+} from "@reduxjs/toolkit";
 import DefaultOption from "../../../commons/DefaultOption";
 import Helper from "../../../commons/Helper";
 import Pricing from "../../../commons/Pricing";
 import Price from "../../../constants/Price";
 import SliceName from "../../../constants/SliceName";
+import StorageKey from "../../../constants/StorageKey";
 
 const sliceName = SliceName.bill;
 const itemsAdapter = createEntityAdapter({
@@ -32,6 +38,12 @@ const slice = createSlice({
         },
         setBillOtherPrice: (state, action) => {
             state.otherPrice = action.payload;
+        },
+        setPriceOfYardPerHour: (state, action) => {
+            state.priceOfYardPerHour = action.payload;
+        },
+        setPriceOfCock: (state, action) => {
+            state.priceOfCock = action.payload;
         },
 
         // users
@@ -89,12 +101,29 @@ const slice = createSlice({
 
         // reset
         resetBill: (state, action) => {
+            const exceptionFields = ["priceOfYardPerHour", "priceOfCock"];
             for (let key in initialState) {
-                state[key] = initialState[key];
+                if (!exceptionFields.includes(key))
+                    state[key] = initialState[key];
             }
         },
     },
 });
+// THUNKS
+export function changePriceOfYardPerHour(value) {
+    return async (dispatch) => {
+        await AsyncStorage.setItem(StorageKey.priceOfYardPerHour, `${value}`);
+        dispatch(setPriceOfYardPerHour(value));
+    };
+}
+
+export function changePriceOfCock(value) {
+    return async (dispatch) => {
+        await AsyncStorage.setItem(StorageKey.priceOfCock, `${value}`);
+        dispatch(setPriceOfCock(value));
+    };
+}
+
 const getState = (state) => state[sliceName];
 
 const selectors = {
@@ -199,6 +228,8 @@ export const {
     setBillTime,
     resetBill,
     setBillOtherPrice,
+    setPriceOfCock,
+    setPriceOfYardPerHour,
 } = slice.actions;
 
 export default slice.reducer;

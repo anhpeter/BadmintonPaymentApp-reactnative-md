@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useEffect, useState } from "react";
 import {
     StyleSheet,
     Text,
@@ -16,8 +17,38 @@ import UserList from "../../components/UserList";
 import Screen from "../../components/Screen";
 import Colors from "../../constants/Colors";
 import ResetButton from "../../components/ResetButton";
+import { useDispatch } from "react-redux";
+import {
+    setPriceOfCock,
+    setPriceOfYardPerHour,
+} from "../../store/slices/billSlice";
+import StorageKey from "../../constants/StorageKey";
 
 export default function HomeScreen(props) {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        const setCustomSetting = async () => {
+            try {
+                const priceOfYardPerHour = await AsyncStorage.getItem(
+                    StorageKey.priceOfYardPerHour
+                );
+                if (priceOfYardPerHour !== null)
+                    dispatch(
+                        setPriceOfYardPerHour(
+                            Number.parseInt(priceOfYardPerHour)
+                        )
+                    );
+                const priceOfCock = await AsyncStorage.getItem(
+                    StorageKey.priceOfCock
+                );
+                if (priceOfCock !== null)
+                    dispatch(setPriceOfCock(Number.parseInt(priceOfCock)));
+            } catch (e) {
+                // error reading value
+            }
+        };
+        setCustomSetting();
+    }, []);
     return (
         <Screen style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollView}>
@@ -55,7 +86,6 @@ const styles = StyleSheet.create({
     container: {},
     scrollView: {
         padding: 10,
-        backgroundColor: "#fff",
     },
     resetContainer: {
         alignItems: "flex-end",
