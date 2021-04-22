@@ -52,11 +52,8 @@ export default function HomeScreen(props) {
     return (
         <Screen style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollView}>
-                <View style={styles.resetContainer}>
-                    <ResetButton />
-                </View>
                 <View style={styles.block}>
-                    <SubTitleText>Setting</SubTitleText>
+                    <SubTitleText>Option</SubTitleText>
                     <Card>
                         <OptionBoard />
                     </Card>
@@ -76,6 +73,9 @@ export default function HomeScreen(props) {
                         <AddingUserBar />
                         <Bill />
                     </Card>
+                </View>
+                <View style={styles.resetContainer}>
+                    <ResetButton />
                 </View>
             </ScrollView>
         </Screen>

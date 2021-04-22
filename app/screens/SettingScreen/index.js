@@ -20,7 +20,7 @@ export default function SettingScreen(props) {
     return (
         <Screen style={styles.container}>
             <View style={styles.priceItemContainer}>
-                <BodyText>Yard per hour price</BodyText>
+                <BodyText>Yard price / hour </BodyText>
                 <NumberSpinner
                     min={0}
                     step={1000}
