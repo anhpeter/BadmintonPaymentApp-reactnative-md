@@ -21,7 +21,7 @@ export default function TimePicker(props) {
                 <RNDateTimePicker
                     is24Hour={true}
                     mode="time"
-                    display={Platform.OS === "android" ? "clock" : "spinner"}
+                    display={Platform.OS === "android" ? "clock" : "compact"}
                     value={new Date(MyTime.convertToUtcTime(time))}
                     onChange={onChange}
                 />

@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Dimensions } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import BodyText from "../../components/BodyText";
 import Card from "../../components/Card";
@@ -18,10 +18,25 @@ export default function SettingScreen(props) {
     const dispatch = useDispatch();
     const priceOfYardPerHour = useSelector(getPriceOfYardPerHour);
     const priceOfCock = useSelector(getPriceOfCock);
+    console.log(Dimensions.get("window"));
+
+    const smallScreenPriceItemContainerStyle =
+        Dimensions.get("window").width < 350
+            ? {
+                  flexDirection: "column",
+                  height: 70,
+                  alignItems: "center",
+              }
+            : null;
+    const priceItemContainerStyle = {
+        ...styles.priceItemContainer,
+        ...smallScreenPriceItemContainerStyle,
+    };
+
     return (
         <Screen style={styles.container}>
             <Card style={styles.settingCard}>
-                <View style={styles.priceItemContainer}>
+                <View style={priceItemContainerStyle}>
                     <BodyText>Yard price / hour </BodyText>
                     <NumberSpinner
                         min={0}
@@ -33,7 +48,7 @@ export default function SettingScreen(props) {
                     />
                 </View>
 
-                <View style={styles.priceItemContainer}>
+                <View style={priceItemContainerStyle}>
                     <BodyText>Cock price</BodyText>
                     <NumberSpinner
                         min={0}
@@ -54,10 +69,10 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     settingCard: {
+        alignItems: "center",
     },
     priceItemContainer: {
         width: 300,
-        maxWidth: "80%",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",

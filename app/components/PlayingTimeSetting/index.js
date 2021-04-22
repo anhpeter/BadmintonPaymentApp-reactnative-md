@@ -1,6 +1,6 @@
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Platform } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Helper from "../../commons/Helper";
 import MyTime from "../../commons/MyTime";
@@ -16,12 +16,13 @@ import TitleText from "../TitleText";
 export default function PlayingTimeSetting(props) {
     const dispatch = useDispatch();
     const time = useSelector(getBillTime);
-    
+
     const [show, setShow] = useState(false);
     const onTimeChangeHandler = (event, selectedDate) => {
         const currentTime =
             MyTime.convertToLocalTime(new Date(selectedDate).getTime()) || time;
-        setShow(false);
+        //setShow(false);
+        setShow(Platform.OS === "ios");
         dispatch(setBillTime(currentTime));
         dispatch(updatePlayingTime(currentTime));
     };
