@@ -11,7 +11,7 @@ export default function ResetButton(props) {
         dispatch(resetBill());
     };
     return (
-        <MyButton color="black" onPress={onResetHandler}>
+        <MyButton color="light" onPress={onResetHandler}>
             Reset
         </MyButton>
     );

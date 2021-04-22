@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, StatusBar, ScrollView } from "react-native";
 import { Provider, useSelector } from "react-redux";
 import MyAppLoading from "./app/components/MyAppLoading";
 import HomeScreen from "./app/screens/HomeScreen";
@@ -9,36 +8,24 @@ import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import CustomHeaderButton from "./app/components/CustomHeaderButton";
-import Colors from "./app/constants/Colors";
+import HeaderMenu from "./app/components/HeaderMenu";
+import FontFamily from "./app/constants/FontFamily";
 
-const Stack = createStackNavigator();
-const Drawer = createDrawerNavigator();
-
-const menuOption = ({ navigation }) => {
-    const onMenuPressHandler = () => {
-        navigation.openDrawer();
-    };
+const screenOptions = ({ navigation }) => {
     return {
-        headerLeft: () => {
-            return (
-                <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                    <Item
-                        color={Colors.black}
-                        title="menu"
-                        iconName="ios-menu"
-                        onPress={onMenuPressHandler}
-                    />
-                </HeaderButtons>
-            );
+        headerLeft: HeaderMenu({ navigation }),
+        headerTitleStyle: {
+            fontFamily: FontFamily.montserratMedium,
         },
     };
 };
 
+const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+
 const HomeStackNavigator = function () {
     return (
-        <Stack.Navigator screenOptions={menuOption}>
+        <Stack.Navigator screenOptions={screenOptions}>
             <Stack.Screen name="Home" component={HomeScreen} />
         </Stack.Navigator>
     );
@@ -46,7 +33,7 @@ const HomeStackNavigator = function () {
 
 const SettingStackNavigator = function () {
     return (
-        <Stack.Navigator screenOptions={menuOption}>
+        <Stack.Navigator screenOptions={screenOptions}>
             <Stack.Screen name="Setting" component={SettingScreen} />
         </Stack.Navigator>
     );

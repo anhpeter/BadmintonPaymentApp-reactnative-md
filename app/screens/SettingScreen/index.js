@@ -2,6 +2,7 @@ import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import BodyText from "../../components/BodyText";
+import Card from "../../components/Card";
 import NumberSpinner from "../../components/NumberSpinner";
 import Screen from "../../components/Screen";
 import {
@@ -19,29 +20,31 @@ export default function SettingScreen(props) {
     const priceOfCock = useSelector(getPriceOfCock);
     return (
         <Screen style={styles.container}>
-            <View style={styles.priceItemContainer}>
-                <BodyText>Yard price / hour </BodyText>
-                <NumberSpinner
-                    min={0}
-                    step={1000}
-                    onChange={(value) => {
-                        dispatch(changePriceOfYardPerHour(value));
-                    }}
-                    value={priceOfYardPerHour}
-                />
-            </View>
+            <Card style={styles.settingCard}>
+                <View style={styles.priceItemContainer}>
+                    <BodyText>Yard price / hour </BodyText>
+                    <NumberSpinner
+                        min={0}
+                        step={1000}
+                        onChange={(value) => {
+                            dispatch(changePriceOfYardPerHour(value));
+                        }}
+                        value={priceOfYardPerHour}
+                    />
+                </View>
 
-            <View style={styles.priceItemContainer}>
-                <BodyText>Cock price</BodyText>
-                <NumberSpinner
-                    min={0}
-                    step={1000}
-                    onChange={(value) => {
-                        dispatch(changePriceOfCock(value));
-                    }}
-                    value={priceOfCock}
-                />
-            </View>
+                <View style={styles.priceItemContainer}>
+                    <BodyText>Cock price</BodyText>
+                    <NumberSpinner
+                        min={0}
+                        step={1000}
+                        onChange={(value) => {
+                            dispatch(changePriceOfCock(value));
+                        }}
+                        value={priceOfCock}
+                    />
+                </View>
+            </Card>
         </Screen>
     );
 }
@@ -49,7 +52,8 @@ export default function SettingScreen(props) {
 const styles = StyleSheet.create({
     container: {
         padding: 10,
-        alignItems: "center",
+    },
+    settingCard: {
     },
     priceItemContainer: {
         width: 300,
