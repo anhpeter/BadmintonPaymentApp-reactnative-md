@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View, StyleSheet, Dimensions } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import DefaultOption from "../../commons/DefaultOption";
 import BodyText from "../../components/BodyText";
 import Card from "../../components/Card";
 import NumberSpinner from "../../components/NumberSpinner";
@@ -18,7 +19,6 @@ export default function SettingScreen(props) {
     const dispatch = useDispatch();
     const priceOfYardPerHour = useSelector(getPriceOfYardPerHour);
     const priceOfCock = useSelector(getPriceOfCock);
-    console.log(Dimensions.get("window"));
 
     const smallScreenPriceItemContainerStyle =
         Dimensions.get("window").width < 350
@@ -40,7 +40,7 @@ export default function SettingScreen(props) {
                     <BodyText>Yard price / hour </BodyText>
                     <NumberSpinner
                         min={0}
-                        step={1000}
+                        step={DefaultOption.yardPriceStep}
                         onChange={(value) => {
                             dispatch(changePriceOfYardPerHour(value));
                         }}
@@ -52,7 +52,7 @@ export default function SettingScreen(props) {
                     <BodyText>Cock price</BodyText>
                     <NumberSpinner
                         min={0}
-                        step={1000}
+                        step={DefaultOption.cockPriceStep}
                         onChange={(value) => {
                             dispatch(changePriceOfCock(value));
                         }}

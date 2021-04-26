@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
+import DefaultOption from "../../commons/DefaultOption";
 import NumberSpinner from "../NumberSpinner";
 
 export default function OtherPriceSetting(props) {
@@ -10,7 +11,7 @@ export default function OtherPriceSetting(props) {
             <View>
                 <NumberSpinner
                     min={0}
-                    step={1000}
+                    step={DefaultOption.otherPriceStep}
                     onChange={onChange}
                     value={value}
                 />

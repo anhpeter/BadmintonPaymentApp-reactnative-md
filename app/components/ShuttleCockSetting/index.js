@@ -12,7 +12,6 @@ export default function ShuttleCockSetting(props) {
                 <NumberSpinner
                     min={0}
                     step={1}
-                    editable={false}
                     onChange={onChange}
                     value={value}
                 />

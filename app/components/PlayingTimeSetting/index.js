@@ -19,8 +19,11 @@ export default function PlayingTimeSetting(props) {
 
     const [show, setShow] = useState(false);
     const onTimeChangeHandler = (event, selectedDate) => {
+        const extraTime = Platform.OS === "android" ? 3600000 : 0;
         const currentTime =
-            MyTime.convertToLocalTime(new Date(selectedDate).getTime()) || time;
+            MyTime.convertToLocalTime(
+                new Date(selectedDate).getTime() - extraTime
+            ) || time;
         //setShow(false);
         setShow(Platform.OS === "ios");
         dispatch(setBillTime(currentTime));
